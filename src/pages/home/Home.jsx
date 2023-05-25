@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import Banner from "./Banner";
 import Bg from "./Bg";
 import Featured from "./Featured";
@@ -9,6 +10,9 @@ import Testimonials from "./Testimonials";
 const Home = () => {
     return (
         <div>
+            <Helmet>
+                <title>Bistro Boss | Home</title>
+            </Helmet>
             <Banner></Banner>
             <SwiperItems></SwiperItems>
             <Bg></Bg>
