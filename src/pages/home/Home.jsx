@@ -1,8 +1,11 @@
+import Banner from "./Banner";
+import SwiperItems from "./SwiperItems";
 
 const Home = () => {
     return (
         <div>
-            <button className="btn btn-primary">Button</button>
+            <Banner></Banner>
+            <SwiperItems></SwiperItems>
         </div>
     );
 };
