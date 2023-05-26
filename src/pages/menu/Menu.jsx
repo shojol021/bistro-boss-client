@@ -33,28 +33,28 @@ const Menu = () => {
             <MenuCategory items={offered}></MenuCategory>
             <Cover
                 img={dessertImg}
-                title={"Dessert"}
+                title={"dessert"}
                 para={'Indulge in our Divine Delights Dessert Collection - a symphony of sweetness, blending velvety chocolates and delicate fruit-infused creations. Experience dessert bliss like never before.'}
             ></Cover>
-            <MenuCategory items={dessert}></MenuCategory>
+            <MenuCategory items={dessert} title={"dessert"}></MenuCategory>
             <Cover
                 img={pizzaImg}
-                title={"Pizza"}
+                title={"pizza"}
                 para={'Choose Your favourite Pizza'}
             ></Cover>
-            <MenuCategory items={pizza}></MenuCategory>
+            <MenuCategory items={pizza} title={"pizza"}></MenuCategory>
             <Cover
                 img={saladImg}
-                title={"Salad"}
+                title={"salad"}
                 para={'A refreshing medley of crisp lettuce, juicy cherry tomatoes, crunchy cucumbers, and vibrant bell peppers, tossed with a tangy twist of sliced red onions. The Garden Delight Salad is a burst of freshness in every bite'}
             ></Cover>
-            <MenuCategory items={salad}></MenuCategory>
+            <MenuCategory items={salad} title={"salad"}></MenuCategory>
             <Cover
                 img={soupImg}
-                title={"Soup"}
+                title={"soup"}
                 para={'Savor the richness of flavor and comforting warmth with our delectable selection of soups. From hearty classics to inventive creations, each spoonful of our soups promises a delightful journey of taste and comfort. Discover the perfect bowl to soothe your soul at our website.'}
             ></Cover>
-            <MenuCategory items={soup}></MenuCategory>
+            <MenuCategory items={soup} title={"soup"}></MenuCategory>
         </div>
     );
 };

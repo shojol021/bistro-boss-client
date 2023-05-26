@@ -4,9 +4,12 @@ import 'react-tabs/style/react-tabs.css';
 import coverImg from '../../assets/shop/banner2.jpg'
 import useMenu from "../../hooks/useMenu";
 import FoodCard from "./FoodCard";
+import { useParams } from "react-router-dom";
 
 const Order = () => {
     const [menu] = useMenu()
+    const {id} = useParams()
+    console.log(id)
     const dessert = menu.filter(item => item.category === 'dessert')
     const pizza = menu.filter(item => item.category === 'pizza')
     const salad = menu.filter(item => item.category === 'salad')
