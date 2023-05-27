@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../provider/AuthProvider';
 import Swal from 'sweetalert2';
@@ -9,6 +9,10 @@ const Login = () => {
 
     const {login} = useContext(AuthContext)
     const nevigate = useNavigate()
+    const location = useLocation()
+    console.log(location.state.from.pathname)
+
+    const from = location.state.from.pathname || '/'
 
     useEffect(() => {
         loadCaptchaEnginge(6); 
@@ -20,7 +24,6 @@ const Login = () => {
         const email = form.email.value;
         const password = form.password.value;
         const captcha = form.captcha.value;
-        console.log(email, password, captcha)
 
         if(validateCaptcha(captcha)){
             login(email, password)
@@ -31,7 +34,7 @@ const Login = () => {
                     icon: 'success',
                     text: 'Login Successfull'
                 })
-                nevigate('/')
+                nevigate(from)
             })
             .catch(err => {
 

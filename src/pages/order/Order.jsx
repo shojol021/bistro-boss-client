@@ -41,7 +41,8 @@ const Order = () => {
                                 key={idx}
                                 img={item.image}
                                 name={item.name}
-                                recipe={item.recipe}>
+                                recipe={item.recipe}
+                                item={item}>
                             </FoodCard>)}
                         </div>
                     </TabPanel>)
