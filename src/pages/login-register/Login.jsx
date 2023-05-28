@@ -3,19 +3,19 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../provider/AuthProvider';
 import Swal from 'sweetalert2';
+import SocialLogin from '../shared/SocialLogin';
 
 
 const Login = () => {
 
-    const {login} = useContext(AuthContext)
+    const { login } = useContext(AuthContext)
     const nevigate = useNavigate()
     const location = useLocation()
-    console.log(location.state.from.pathname)
 
-    const from = location.state.from.pathname || '/'
+    const from = location?.state?.from?.pathname || '/'
 
     useEffect(() => {
-        loadCaptchaEnginge(6); 
+        loadCaptchaEnginge(6);
     }, [])
 
     const handleLogin = (e) => {
@@ -25,27 +25,27 @@ const Login = () => {
         const password = form.password.value;
         const captcha = form.captcha.value;
 
-        if(validateCaptcha(captcha)){
+        if (validateCaptcha(captcha)) {
             login(email, password)
-            .then(res => {
-                const loggedUser = res.user;
-                console.log(loggedUser)
-                Swal.fire({
-                    icon: 'success',
-                    text: 'Login Successfull'
+                .then(res => {
+                    const loggedUser = res.user;
+                    console.log(loggedUser)
+                    Swal.fire({
+                        icon: 'success',
+                        text: 'Login Successfull'
+                    })
+                    nevigate(from)
                 })
-                nevigate(from)
-            })
-            .catch(err => {
+                .catch(err => {
 
-                Swal.fire({
-                    icon: 'error',
-                    text: `${err.message}`
+                    Swal.fire({
+                        icon: 'error',
+                        text: `${err.message}`
+                    })
+                    form.reset()
                 })
-                form.reset()
-            })
         }
-        else{
+        else {
             Swal.fire({
                 icon: 'error',
                 text: 'Wrong Captcha'
@@ -53,7 +53,7 @@ const Login = () => {
             form.captcha.value = ''
             return
         }
-       
+
     }
 
     return (
@@ -90,6 +90,9 @@ const Login = () => {
                             <input className="btn bg-slate-300 border-0 border-b border-b-orange-500 text-orange-600" type="submit" value="Login" />
                         </div>
                         <div>New here? <Link to='/register'><span>Sign Up</span></Link></div>
+                    </div>
+                    <div className='text-center w-full mb-5'>
+                        <SocialLogin></SocialLogin>
                     </div>
                 </form>
             </div>

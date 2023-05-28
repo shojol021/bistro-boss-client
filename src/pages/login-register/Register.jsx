@@ -4,31 +4,47 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import SocialLogin from "../shared/SocialLogin";
 
 
 const Register = () => {
-    const {createUser, updateUser, logout} = useContext(AuthContext)
+    const { createUser, updateUser, logout } = useContext(AuthContext)
     const navigate = useNavigate(null)
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = data => {
         console.log(data)
         createUser(data.email, data.password)
-        .then(res => {
-            const loggedUser = res.user;
-            console.log(loggedUser) 
-            updateUser(data.name, data.photo)
-            .then(() => {
-                Swal.fire({
-                    icon: 'success',
-                    text: 'Register Successfull'
-                })
-                logout()
-                .then(() => {
-                    navigate('/login')
-                })
+            .then(res => {
+                const loggedUser = res.user;
+                console.log(loggedUser)
+                updateUser(data.name, data.photo)
+                    .then(() => {
+                        const savedUser = { name: data.name, email: data.email }
+                        fetch('http://localhost:5000/users', {
+                            method: "POST",
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            body: JSON.stringify(savedUser)
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.insertedId) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        text: 'Register Successfull'
+                                    })
+                                }
+                            })
+
+                        logout()
+                            .then(() => {
+                                navigate('/login')
+                            })
+                    })
             })
-        })
+            .catch(err => alert(err.message))
     };
 
     return (
@@ -82,6 +98,9 @@ const Register = () => {
                         <div className="form-control mt-6">
                             <input className="btn" type="submit" value='Register' />
                         </div>
+                    </div>
+                    <div className="text-center w-full">
+                        <SocialLogin></SocialLogin>
                     </div>
                 </form>
             </div>
