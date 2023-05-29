@@ -9,7 +9,7 @@ const AllUsers = () => {
         return res.json();
     })
 
-    const handleDelete = (id) => {
+    const handleDelete = () => {
 
     }
 
@@ -25,7 +25,7 @@ const AllUsers = () => {
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
-                        title: `${name} Successfully Made Admin`,
+                        title: `${name} is admin now`,
                         showConfirmButton: false,
                         timer: 1500
                     })
