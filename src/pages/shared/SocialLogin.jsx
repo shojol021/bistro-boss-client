@@ -5,21 +5,33 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const SocialLogin = () => {
 
-    const {googleLogin} = useContext(AuthContext)
+    const { googleLogin } = useContext(AuthContext)
 
     const nevigate = useNavigate()
     const location = useLocation()
 
     const from = location?.state?.from?.pathname || '/'
-    
+
     const handleGoogleLogin = () => {
         googleLogin()
-        .then(res => {
-            const loggedUser = res.user;
-            console.log(loggedUser)
-            nevigate(from, {replace: true})
-            
-        })
+            .then(res => {
+                const loggedUser = res.user;
+                console.log(loggedUser)
+                const savedUser = { name: loggedUser.displayName, email: loggedUser.email }
+                fetch('http://localhost:5000/users', {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(savedUser)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        nevigate(from, { replace: true })
+
+                    })
+            })
     }
     return (
         <div className="">
