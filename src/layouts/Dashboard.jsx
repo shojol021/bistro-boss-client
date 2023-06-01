@@ -3,10 +3,12 @@ import { FaBook, FaCalendar, FaFireAlt, FaHome, FaShoppingCart, FaThList, FaUser
 import { FaWallet } from "react-icons/fa";
 import useCart from "../hooks/useCart";
 import { GiHamburgerMenu } from "react-icons/gi";
+import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
     const [cart] = useCart()
-    const isAdmin = true;
+    const [isAdmin] = useAdmin();
+    console.log(isAdmin)
     return (
         <div className="drawer drawer-mobile">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
