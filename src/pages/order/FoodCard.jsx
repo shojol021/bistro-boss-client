@@ -13,7 +13,6 @@ const FoodCard = ({item}) => {
     const location = useLocation()
 
     const handleOrder = () => {
-        console.log(item)
         if(user){
             const orderItem = {itemId: _id, email: user.email, name, image, recipe, price, category}
             fetch('http://localhost:5000/cart', {
