@@ -1,16 +1,16 @@
-import { Helmet } from "react-helmet-async";
-import useCart from "../../../hooks/useCart";
-import { FaTrashAlt } from "react-icons/fa";
-import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
 
+import { FaTrashAlt } from 'react-icons/fa';
+import useMenu from '../../hooks/useMenu';
+import SectionTitle from '../shared/SectionTitle';
+import Swal from 'sweetalert2';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
-const MyCart = () => {
-
-    const [cart, refetch] = useCart()
-    const total = cart.reduce((sum, item) => sum + item.price, 0)
+const ManageItems = () => {
+    const [menu, , refetch] = useMenu()
+    const [axiosSecure] = useAxiosSecure()
 
     const handleDelete = (id) => {
+        console.log(id)
         Swal.fire({
             title: 'Are you sure?',
             text: "Your item will be removed from the cart",
@@ -21,14 +21,12 @@ const MyCart = () => {
             confirmButtonText: 'Yes, remove it!'
         }).then((result) => {
             if (result.isConfirmed) {
-
-                fetch(`http://localhost:5000/cart/${id}`, {
-                    method: 'DELETE'
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.deletedCount > 0) {
-                            refetch()
+                
+                axiosSecure.delete(`/menu/${id}`)
+                    .then(res => {
+                        console.log(res.data)
+                        refetch()
+                        if(res.data.deletedCount){
                             Swal.fire(
                                 'Item removed!',
                                 'Your item has been removed from the cart.',
@@ -40,55 +38,52 @@ const MyCart = () => {
             }
         })
     }
+
     return (
-        <div className="p-12 w-full">
-            <Helmet>
-                <title>Bistro | My Cart</title>
-            </Helmet>
-            <div className="flex justify-between h-12">
-                <h3>Total Order: {cart.length}</h3>
-                <h3>Total Price: ${total}</h3>
-                <Link to='/dashboard/payment'>
-                    <button className="btn btn-warning btn-sm">Pay</button>
-                </Link>
-            </div>
-            <div className="overflow-x-auto w-full">
-                <table className="table w-full">
+        <div className='w-full'>
+            <SectionTitle heading={'Manage all items'} subHeading={'Hurry up!'}></SectionTitle>
+            <div className="overflow-x-auto">
+                <table className="table">
                     {/* head */}
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Image</th>
+                            <th>Item Image</th>
                             <th>Item Name</th>
                             <th>Price</th>
+                            <th>Action</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            cart.map((item, idx) => <tr key={
-                                item._id}>
-                                <th>{idx + 1}</th>
+                            menu.map((item, idx) => <tr key={item._id}>
+                                <td>{idx + 1} </td>
                                 <td>
                                     <div className="avatar">
                                         <div className="mask mask-squircle w-12 h-12">
-                                            <img src={item.image} alt="Avatar Tailwind CSS Component" />
+                                            <img src={item?.image} alt="Avatar Tailwind CSS Component" />
                                         </div>
                                     </div>
                                 </td>
-                                <td>{item.name}</td>
-                                <td className="text-end">{item.price}</td>
-                                <th>
+                                <td>
+                                    {item.name}
+                                </td>
+                                <td>{item.price}</td>
+                                <td>
+                                    <button className="btn btn-ghost btn-xs">Update</button>
+                                </td>
+                                <td>
                                     <button onClick={() => handleDelete(item._id)} className="btn btn-ghost btn-sm bg-red-700 text-white"><FaTrashAlt></FaTrashAlt></button>
-                                </th>
+                                </td>
                             </tr>)
                         }
-                    </tbody>
 
+                    </tbody>
                 </table>
             </div>
         </div>
     );
 };
 
-export default MyCart;
+export default ManageItems;
