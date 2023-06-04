@@ -2,17 +2,20 @@ import { loadStripe } from "@stripe/stripe-js";
 import SectionTitle from "../shared/SectionTitle";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
+import useCart from "../../hooks/useCart";
 
-const pkKey = import.meta.env.VITE_PAYMENT_GATEWAY_PK 
-const stripePromise = loadStripe(pkKey)
+const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_GATEWAY_PK)
 
 const Payment = () => {
+    const [cart] = useCart()
+    const total = cart.reduce((sum, item) => sum + item.price, 0)
+    const price = parseFloat(total.toFixed(2))
     return (
         <div className="w-full p-12">
             <SectionTitle subHeading='Please complete' heading='Payment'></SectionTitle>
             
             <Elements stripe={stripePromise}>
-                <CheckoutForm></CheckoutForm>
+                <CheckoutForm price={price}></CheckoutForm>
             </Elements>
 
         </div>

@@ -10,7 +10,6 @@ const ManageItems = () => {
     const [axiosSecure] = useAxiosSecure()
 
     const handleDelete = (id) => {
-        console.log(id)
         Swal.fire({
             title: 'Are you sure?',
             text: "Your item will be removed from the cart",

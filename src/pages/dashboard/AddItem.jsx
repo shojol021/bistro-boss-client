@@ -18,7 +18,6 @@ const AddItem = () => {
         fetch(image_hosting_url, {method: 'POST', body: formData})
         .then(res => res.json())
         .then(imageRes => {
-            console.log(imageRes)
             if(imageRes.success){
                 const imgUrl = imageRes.data.display_url
                 const {category, name, price, recipe} = data;
